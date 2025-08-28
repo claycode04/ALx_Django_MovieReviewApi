@@ -2,7 +2,7 @@ from rest_framework import viewsets, permissions
 from .models import Review
 from .serializers import ReviewSerializer, UserSerializer
 from django.contrib.auth.models import User
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
 from .permissions import IsOwnerOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
@@ -22,4 +22,10 @@ class ReviewViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.action == 'create':
+            self.permission_classes = [AllowAny]
+        else:
+            self.permission_classes = [IsAuthenticated]
+        return super(UserViewSet, self).get_permissions()
