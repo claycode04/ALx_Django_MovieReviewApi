@@ -30,7 +30,9 @@ Railway offers $5 free credit monthly and is very beginner-friendly.
    ```
    
    **Note**: This is a generated secret key for your project. Keep it secure!
-   **Important**: Remove PYTHONPATH=/app as it can cause import issues on Railway.
+   **Important**: 
+   - Do NOT add PYTHONPATH=/app (causes import issues)
+   - Do NOT add PORT variable (Railway handles this automatically)
 
 5. **Deploy**
    - Railway will automatically build and deploy your app
