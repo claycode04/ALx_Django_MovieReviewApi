@@ -12,10 +12,18 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
-from dotenv import load_dotenv
-import dj_database_url
 
-load_dotenv()
+# For Railway deployment
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+try:
+    import dj_database_url
+except ImportError:
+    dj_database_url = None
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,6 +39,9 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-*8hhhet@80uzrm=t_v5ul6+doi
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = ['*']  # For Railway, you can use '*' for simplicity in learning projects
+
+# Railway port configuration
+PORT = os.getenv('PORT', 8000)
 
 
 # Application definition
@@ -83,7 +94,7 @@ WSGI_APPLICATION = 'movie_review.wsgi.application'
 
 # Database
 # Use DATABASE_URL if available (for production), otherwise use SQLite
-if os.getenv('DATABASE_URL'):
+if os.getenv('DATABASE_URL') and dj_database_url:
     DATABASES = {
         'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
     }

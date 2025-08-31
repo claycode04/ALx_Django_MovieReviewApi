@@ -24,10 +24,13 @@ Railway offers $5 free credit monthly and is very beginner-friendly.
 4. **Add Environment Variables**
    In Railway dashboard, go to Variables tab and add:
    ```
-   SECRET_KEY=your-super-secret-key-here-make-it-long-and-random
+   SECRET_KEY=secret-key
    DEBUG=False
-   PYTHONPATH=/app
+   DJANGO_SETTINGS_MODULE=movie_review.settings
    ```
+   
+   **Note**: This is a generated secret key for your project. Keep it secure!
+   **Important**: Remove PYTHONPATH=/app as it can cause import issues on Railway.
 
 5. **Deploy**
    - Railway will automatically build and deploy your app
@@ -46,7 +49,7 @@ Render offers free tier with some limitations but is great for learning.
    - Start Command: `gunicorn movie_review.wsgi:application`
    - Environment Variables:
      ```
-     SECRET_KEY=your-secret-key
+     SECRET_KEY=48b+zadw4=!&63&giw+kcw_xmt0yq6&cs(z)xc!#hwg6k@&d3&
      DEBUG=False
      PYTHON_VERSION=3.11.0
      ```
@@ -82,9 +85,30 @@ To run locally with production-like settings:
 
 ## Troubleshooting:
 
-1. **Static Files Not Loading**: Check STATIC_ROOT and WhiteNoise configuration
-2. **Database Errors**: Ensure migrations are run: `python manage.py migrate`
-3. **Import Errors**: Check all dependencies are in requirements.txt
+### Common Railway Deployment Issues:
+
+1. **Import Module Error**: 
+   - Make sure DJANGO_SETTINGS_MODULE=movie_review.settings is set in environment variables
+   - Remove PYTHONPATH=/app if present
+
+2. **Static Files Not Loading**: Check STATIC_ROOT and WhiteNoise configuration
+
+3. **Database Errors**: 
+   - Ensure migrations are run: `python manage.py migrate`
+   - Check if DATABASE_URL is properly set for PostgreSQL
+
+4. **Import Errors**: Check all dependencies are in requirements.txt
+
+5. **Worker Process Crashes**:
+   - Check Railway logs for specific error messages
+   - Ensure Procfile is correctly configured
+   - Verify SECRET_KEY is set in environment variables
+
+### Railway-Specific Tips:
+- Railway automatically runs `pip install -r requirements.txt`
+- The PORT environment variable is automatically set by Railway
+- Use Railway's PostgreSQL add-on for production database
+- Check the "Deploy" tab in Railway dashboard for real-time logs
 
 ## Next Steps for Learning:
 

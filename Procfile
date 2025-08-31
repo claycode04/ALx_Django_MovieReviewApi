@@ -1,1 +1,1 @@
-web: gunicorn movie_review.wsgi --log-file -
+web: python manage.py migrate && python manage.py collectstatic --noinput && gunicorn movie_review.wsgi:application --bind 0.0.0.0:$PORT
