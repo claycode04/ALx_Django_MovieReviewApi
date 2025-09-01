@@ -71,15 +71,16 @@ Good for learning but has some limitations.
 
 ## Testing Your Deployment:
 
-After deployment, test these endpoints:
-- `GET /swagger/` - Should show your API documentation (Swagger UI)
-- `GET /redoc/` - Alternative API documentation (ReDoc)
-- `GET /api/` - Your API endpoints
-- `POST /api/auth/` - Authentication endpoints
+After deployment, test these endpoints (use HTTPS, not HTTP):
+- `GET https://your-app-name.railway.app/swagger/` - Should show your API documentation (Swagger UI)
+- `GET https://your-app-name.railway.app/redoc/` - Alternative API documentation (ReDoc)
+- `GET https://your-app-name.railway.app/api/` - Your API endpoints
+- `POST https://your-app-name.railway.app/api-token-auth/` - Authentication endpoints
 
-**Common API Testing Issues:**
-- If you see "Failed to fetch" or CORS errors in Swagger, this is now fixed with CORS headers
-- If you get CSRF errors, the API views are now exempt from CSRF validation
+**Important for API Testing:**
+- **Always use HTTPS**: Railway serves apps over HTTPS, using HTTP will cause CORS errors
+- **In Swagger UI**: Make sure the server URL shows `https://` not `http://`
+- **If you see HTTP in Swagger**: Clear browser cache or try incognito mode
 - Use the "Authorize" button in Swagger to authenticate with Token or Session auth
 
 ## Local Development:
@@ -102,7 +103,13 @@ To run locally with production-like settings:
    - Remove PYTHONPATH=/app if present
 
 3. **API/Swagger Issues**:
-   - **"Failed to fetch" or CORS errors**: Fixed with django-cors-headers configuration
+   - **"Failed to fetch" or CORS errors**: 
+     * Make sure you're using HTTPS, not HTTP (Railway only serves HTTPS)
+     * Clear browser cache if Swagger shows HTTP URLs
+     * Check that CORS headers are properly configured
+   - **"URL scheme must be http or https for CORS request"**: 
+     * This means you're trying to use HTTP - switch to HTTPS
+     * Update bookmarks to use https:// instead of http://
    - **"CSRF verification failed"**: API views are now CSRF-exempt
    - **Authentication issues**: Use Token authentication or create a user first
    - Make sure to use `/swagger/` endpoint for API documentation

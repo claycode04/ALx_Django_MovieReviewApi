@@ -40,6 +40,15 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = ['*']  # For Railway, you can use '*' for simplicity in learning projects
 
+# HTTPS settings for production
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+
 
 # Application definition
 
@@ -174,6 +183,7 @@ CORS_ALLOW_ALL_ORIGINS = True  # For development/learning - allows all domains
 # CSRF settings for API access
 CSRF_TRUSTED_ORIGINS = [
     'https://*.railway.app',  # Allow Railway domains
+    'https://web-production-ec8da.up.railway.app',  # Your specific Railway domain
     'http://localhost:8000',
     'http://127.0.0.1:8000',
 ]

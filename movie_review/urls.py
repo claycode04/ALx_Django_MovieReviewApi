@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import os
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import permissions
@@ -21,17 +22,25 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.authtoken import views as authtoken_views
 
+# Dynamic URL for Railway deployment
+SWAGGER_URL = os.getenv('RAILWAY_PUBLIC_DOMAIN')
+if SWAGGER_URL:
+    SWAGGER_URL = f'https://{SWAGGER_URL}'
+else:
+    SWAGGER_URL = None
+
 schema_view = get_schema_view(
    openapi.Info(
       title="Movie Review API",
       default_version='v1',
       description="API for managing movie reviews",
       terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@example.com"),
+      contact=openapi.Contact(email="yassinebenworks@gmail.com"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
+   url=SWAGGER_URL,
 )
 
 urlpatterns = [
