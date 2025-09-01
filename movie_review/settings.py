@@ -157,12 +157,31 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
 
 # CORS settings for API access
 CORS_ALLOW_ALL_ORIGINS = True  # For development/learning - allows all domains
+
+# CSRF settings for API access
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.railway.app',  # Allow Railway domains
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+
+# For API endpoints, we'll handle CSRF in views
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript access for API calls
+CSRF_COOKIE_SAMESITE = 'Lax'
 
 # For production, you would use specific domains:
 # CORS_ALLOWED_ORIGINS = [

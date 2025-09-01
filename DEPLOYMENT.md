@@ -72,9 +72,15 @@ Good for learning but has some limitations.
 ## Testing Your Deployment:
 
 After deployment, test these endpoints:
-- `GET /` - Should show your API documentation (drf-yasg)
+- `GET /swagger/` - Should show your API documentation (Swagger UI)
+- `GET /redoc/` - Alternative API documentation (ReDoc)
 - `GET /api/` - Your API endpoints
 - `POST /api/auth/` - Authentication endpoints
+
+**Common API Testing Issues:**
+- If you see "Failed to fetch" or CORS errors in Swagger, this is now fixed with CORS headers
+- If you get CSRF errors, the API views are now exempt from CSRF validation
+- Use the "Authorize" button in Swagger to authenticate with Token or Session auth
 
 ## Local Development:
 
@@ -91,7 +97,17 @@ To run locally with production-like settings:
    - Make sure DJANGO_SETTINGS_MODULE=movie_review.settings is set in environment variables
    - Remove PYTHONPATH=/app if present
 
-2. **Static Files Not Loading**: Check STATIC_ROOT and WhiteNoise configuration
+2. **Import Module Error**: 
+   - Make sure DJANGO_SETTINGS_MODULE=movie_review.settings is set in environment variables
+   - Remove PYTHONPATH=/app if present
+
+3. **API/Swagger Issues**:
+   - **"Failed to fetch" or CORS errors**: Fixed with django-cors-headers configuration
+   - **"CSRF verification failed"**: API views are now CSRF-exempt
+   - **Authentication issues**: Use Token authentication or create a user first
+   - Make sure to use `/swagger/` endpoint for API documentation
+
+4. **Static Files Not Loading**: Check STATIC_ROOT and WhiteNoise configuration
 
 3. **Database Errors**: 
    - Ensure migrations are run: `python manage.py migrate`
